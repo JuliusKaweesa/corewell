@@ -2,6 +2,20 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import {
+  Accessibility,
+  Activity,
+  Baby,
+  BicepsFlexed,
+  Bone,
+  BoneFracture,
+  Dumbbell,
+  HeartHandshake,
+  HeartPulse,
+  MonitorCheck,
+  PersonStanding,
+  type LucideIcon,
+} from "lucide-react";
 
 type PageName = "home" | "about" | "services" | "divisions" | "team" | "patient" | "articles" | "contact" | "appointment" | "notfound";
 
@@ -54,7 +68,25 @@ function SectionHead({ eyebrow, title, copy, center=false }: { eyebrow:string; t
 
 function Hero() { return <section className="hero"><div className="container hero-grid"><div><span className="eyebrow">Physiotherapy &amp; Musculoskeletal Health</span><h1>Expert Physiotherapy.<br/><em>Stronger You.</em></h1><p className="lead">CoreWell Uganda provides evidence-based care for pain relief, injury recovery, spine health and lifelong movement.</p><div className="actions"><Link className="btn" href="/appointment">Book an Appointment</Link><Link className="btn btn-ghost" href="/services">Our Services</Link></div><div className="trust"><span>Licensed Professionals</span><span>Evidence-Based Care</span><span>Patient-Centred Treatment</span></div></div><div className="hero-visual"><div className="imageframe"><img src="/images/hero-physio.png" alt="Physiotherapist guiding a patient through a shoulder mobility exercise"/></div><div className="floatcard"><b>A Uganda that moves without pain.</b><span>Care built around your goals.</span></div></div></div></section>; }
 
-function ServiceGrid({ full=false }: { full?:boolean }) { const list = full ? services : services.slice(0,6); return <div className={full ? "servicegrid full" : "servicegrid"}>{list.map(([abbr,title,desc,who,conditions]) => <article className="servicecard" key={title as string}><span className="lineicon">{abbr as string}</span><h3>{title as string}</h3><p>{desc as string}</p>{full && <><div className="service-meta"><b>Who it is for</b><span>{who as string}</span></div><div className="service-meta"><b>Common concerns</b><span>{conditions as string}</span></div><Link className="textlink" href="/appointment">Book Appointment <span>→</span></Link></>}</article>)}</div>; }
+const serviceIcons: Record<string, LucideIcon> = {
+  "Musculoskeletal Physiotherapy": BicepsFlexed,
+  "Sports Injury Rehabilitation": Accessibility,
+  "Spine and Back Pain Care": Bone,
+  "Post-Surgical Rehabilitation": BoneFracture,
+  "Neurological Rehabilitation": PersonStanding,
+  "Paediatric Physiotherapy": Baby,
+  "Pain Management": HeartPulse,
+  "Workplace Ergonomics": MonitorCheck,
+  "Corporate Wellness": HeartHandshake,
+  "Athlete Performance Support": Dumbbell,
+};
+
+function ServiceIcon({ title }: { title: string }) {
+  const Icon = serviceIcons[title] ?? Activity;
+  return <Icon aria-hidden="true" size={27} strokeWidth={1.75} />;
+}
+
+function ServiceGrid({ full=false }: { full?:boolean }) { const list = full ? services : services.slice(0,6); return <div className={full ? "servicegrid full" : "servicegrid"}>{list.map(([,title,desc,who,conditions]) => <article className="servicecard" key={title as string}><span className="lineicon"><ServiceIcon title={title as string}/></span><h3>{title as string}</h3><p>{desc as string}</p>{full && <><div className="service-meta"><b>Who it is for</b><span>{who as string}</span></div><div className="service-meta"><b>Common concerns</b><span>{conditions as string}</span></div><Link className="textlink" href="/appointment">Book Appointment <span>→</span></Link></>}</article>)}</div>; }
 
 function DivisionGrid({ detailed=false }: { detailed?:boolean }) { return <div className="divisiongrid">{divisions.map(([tag,title,desc,items]) => <article className="divisioncard" key={title as string}><span className="divisiontag">{tag as string}</span><h3>{title as string}</h3><p>{desc as string}</p>{detailed && <ul>{(items as string[]).map(i => <li key={i}>{i}</li>)}</ul>}<Link className="textlink" href={detailed ? "/appointment" : "/divisions"}>{detailed ? "Book an appointment" : "Learn more"} <span>→</span></Link></article>)}</div>; }
 
