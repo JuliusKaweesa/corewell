@@ -12,8 +12,13 @@ import {
   Dumbbell,
   HeartHandshake,
   HeartPulse,
+  Home,
+  CalendarPlus,
+  MapPin,
   MonitorCheck,
+  Newspaper,
   PersonStanding,
+  Stethoscope,
   type LucideIcon,
 } from "lucide-react";
 
@@ -59,6 +64,13 @@ function Header() {
   return <>
     <div className="topbar"><div className="container topbar-inner"><span>People&apos;s Medical Hospital, Gayaza, Kampala</span><span><a href="tel:+256761393569">+256 761 393 569</a><i /> <a href="mailto:info@corewellmusculoskeletaluganda.com">info@corewellmusculoskeletaluganda.com</a></span></div></div>
     <header className="header"><div className="container navrow"><Brand/><button className="menubtn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle navigation"><span/><span/><span/></button><nav className={open ? "nav open" : "nav"}>{nav.map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>)}<Link className="btn btn-small" href="/appointment" onClick={() => setOpen(false)}>Book Appointment</Link></nav></div></header>
+    <nav className="mobile-dock" aria-label="Mobile quick navigation">
+      <Link href="/"><Home aria-hidden="true"/><span>Home</span></Link>
+      <Link href="/services"><Stethoscope aria-hidden="true"/><span>Services</span></Link>
+      <Link className="dock-book" href="/appointment"><CalendarPlus aria-hidden="true"/><span>Book</span></Link>
+      <Link href="/articles"><Newspaper aria-hidden="true"/><span>Articles</span></Link>
+      <Link href="/contact"><MapPin aria-hidden="true"/><span>Contact</span></Link>
+    </nav>
   </>;
 }
 
