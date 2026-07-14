@@ -1,8 +1,8 @@
-# vinext-starter
+# CoreWell Uganda
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+The CoreWell Uganda website runs on
+[vinext](https://github.com/cloudflare/vinext) and Vite, with Nitro providing
+the Netlify deployment adapter.
 
 ## Prerequisites
 
@@ -11,18 +11,19 @@ Drizzle support.
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
-npm run build
+pnpm install
+pnpm run dev
+pnpm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+Netlify uses `netlify.toml`, builds with the Nitro `netlify` preset, and
+publishes automatically when the connected GitHub branch changes.
 
 ## Included Shape
 
 - edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
+- `netlify.toml` defines the production build environment
+- `vite.config.ts` combines vinext with the Nitro deployment adapter
 - `db/schema.ts` starts intentionally empty
 - `examples/d1/` contains an optional D1 example surface
 - `drizzle.config.ts` supports local migration generation when needed
@@ -87,10 +88,10 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 
 ## Useful Commands
 
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+- `pnpm run dev`: start local development
+- `pnpm run build`: verify the Netlify-compatible production build
+- `pnpm test`: build and run the rendered HTML checks
+- `pnpm run db:generate`: generate Drizzle migrations after schema changes
 
 ## Learn More
 
