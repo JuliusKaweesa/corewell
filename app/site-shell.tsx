@@ -99,7 +99,7 @@ export const articles = [
   ] },
 ];
 
-function Brand() { return <Link className="brand" href="/" aria-label="CoreWell Uganda home"><span className="brandmark">C</span><span><b>CoreWell</b><small>Physiotherapy &amp; Musculoskeletal Health</small></span></Link>; }
+function Brand() { return <Link className="brand" href="/" aria-label="CoreWell Uganda home"><img className="brand-logo" src="/images/corewell-logo.png" alt="" /><span><b>CoreWell</b><small>Physiotherapy &amp; Musculoskeletal Health</small></span></Link>; }
 
 function Header() {
   const [open, setOpen] = useState(false);
