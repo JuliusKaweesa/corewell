@@ -18,7 +18,8 @@ pnpm run build
 
 Netlify uses `netlify.toml`, builds with the Nitro `netlify` preset, publishes
 the generated `dist` assets, and skips Netlify's standard Next.js runtime so it
-does not override Vinext's Nitro server functions.
+does not override Vinext's Nitro server functions. Netlify uses Node.js 24 so
+Corepack can securely verify and install the pinned pnpm release.
 
 ## Included Shape
 

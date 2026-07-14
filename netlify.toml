@@ -4,5 +4,5 @@
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
-  NODE_VERSION = "22.13.0"
+  NODE_VERSION = "24"
   NITRO_PRESET = "netlify"
