@@ -16,8 +16,9 @@ pnpm run dev
 pnpm run build
 ```
 
-Netlify uses `netlify.toml`, builds with the Nitro `netlify` preset, and
-publishes automatically when the connected GitHub branch changes.
+Netlify uses `netlify.toml`, builds with the Nitro `netlify` preset, publishes
+the generated `dist` assets, and skips Netlify's standard Next.js runtime so it
+does not override Vinext's Nitro server functions.
 
 ## Included Shape
 
