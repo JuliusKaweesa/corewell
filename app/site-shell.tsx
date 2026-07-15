@@ -105,7 +105,7 @@ export const articles = [
   ] },
 ];
 
-function Brand() { return <Link className="brand" href="/" aria-label="CoreWell Uganda home"><img className="brand-logo" src="/images/corewell-logo.png" alt="" /><span><b>CoreWell</b><small>Musculoskeletal Health · Wellness · Performance</small></span></Link>; }
+function Brand() { return <Link className="brand" href="/" aria-label="CoreWell Uganda home"><img className="brand-logo" src="/images/corewell-logo.png" alt="" /><span><b>Core<em>Well</em></b><small>Musculoskeletal Health · Wellness · Performance</small></span></Link>; }
 
 function Header() {
   const [open, setOpen] = useState(false);
@@ -126,7 +126,7 @@ function Footer() { return <footer><div className="container footergrid"><div><B
 
 function SectionHead({ eyebrow, title, copy, center=false }: { eyebrow:string; title:string; copy?:string; center?:boolean }) { return <div className={center ? "sectionhead center" : "sectionhead"}><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{copy && <p>{copy}</p>}</div>; }
 
-function Hero() { return <section className="hero"><div className="container hero-grid"><div><span className="eyebrow">CoreWell Uganda Limited</span><h1>A Uganda that<br/><em>moves without pain.</em></h1><p className="lead">As physiotherapists working in clinical practice every day, we saw the same preventable problems affecting office workers, athletes and people living with chronic pain. CoreWell Uganda was built to solve the problem we saw with our own hands.</p><div className="actions"><Link className="btn" href="/appointment">Request a Free Assessment</Link><Link className="btn btn-ghost" href="/services">Explore Our Services</Link></div><div className="trust"><span>80% of office workers experience MSK pain</span><span>Leading cause of workplace absence globally</span><span>Up to 34% productivity loss from unmanaged MSK pain</span></div></div><div className="hero-visual"><div className="imageframe"><img src="/images/hero-physio.png" alt="Physiotherapist guiding a patient through a shoulder mobility exercise"/></div><div className="floatcard"><b>A Uganda that moves without pain.</b><span>Founded by clinicians. Built for Uganda.</span></div></div></div></section>; }
+function Hero() { return <section className="hero"><div className="container hero-grid"><div><h1>A Uganda that<br/><em>moves without pain.</em></h1><p className="lead">As physiotherapists working in clinical practice every day, we saw the same preventable problems affecting office workers, athletes and people living with chronic pain. CoreWell Uganda was built to solve the problem we saw with our own hands.</p><div className="actions"><Link className="btn" href="/appointment">Request a Free Assessment</Link><Link className="btn btn-ghost" href="/services">Explore Our Services</Link></div><div className="trust"><span>80% of office workers experience MSK pain</span><span>Leading cause of workplace absence globally</span><span>Up to 34% productivity loss from unmanaged MSK pain</span></div></div><div className="hero-visual"><div className="imageframe"><img src="/images/hero-physio.png" alt="Physiotherapist guiding a patient through a shoulder mobility exercise"/></div><div className="floatcard"><b>A Uganda that moves without pain.</b><span>Founded by clinicians. Built for Uganda.</span></div></div></div></section>; }
 
 const serviceIcons: Record<string, LucideIcon> = {
   "Musculoskeletal Physiotherapy": BicepsFlexed,
