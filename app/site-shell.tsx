@@ -157,7 +157,39 @@ function TeamCards({ full=false }: {full?:boolean}) { const team = [
 
 function ArticleCards({ limit=6 }: {limit?:number}) { return <div className="articlegrid">{articles.slice(0,limit).map(a => <article className="articlecard" key={a.slug}><div className="articlevisual"><img src={a.image} alt={a.imageAlt}/><span>{a.category}</span></div><div className="articlebody"><span className="articlemeta">{a.date} · {a.time}</span><h3>{a.title}</h3><p>{a.excerpt}</p><Link className="textlink" href={`/articles/${a.slug}`}>Read article <span>→</span></Link></div></article>)}</div>; }
 
-function ContactForm({ appointment=false }: {appointment?:boolean}) { const [sent,setSent] = useState(false); function submit(e:FormEvent){e.preventDefault();setSent(true);} return <form className="form" onSubmit={submit}>{sent ? <div className="success"><b>Thank you.</b><p>Your request has been recorded on this device. Please call us if you need a faster response.</p><button className="btn" type="button" onClick={()=>setSent(false)}>Send another request</button></div> : <>{appointment ? <><label>Full name<input required name="name"/></label><div className="formrow"><label>Phone number<input required type="tel"/></label><label>Email<input required type="email"/></label></div><div className="formrow"><label>Preferred service<select required><option value="">Choose a service</option>{services.map(s=><option key={s[1]}>{s[1]}</option>)}</select></label><label>Patient type<select required><option>Individual</option><option>Corporate</option><option>Athlete</option></select></label></div><div className="formrow"><label>Preferred date<input required type="date"/></label><label>Preferred time<input required type="time"/></label></div><label>Brief description of the problem<textarea required rows={5}/></label><label className="consent"><input required type="checkbox"/> I consent to CoreWell Uganda contacting me about this appointment request.</label></> : <><div className="formrow"><label>Full name<input required/></label><label>Phone number<input required type="tel"/></label></div><label>Email<input required type="email"/></label><label>Service needed<select required><option value="">Select a service</option>{services.map(s=><option key={s[1]}>{s[1]}</option>)}</select></label><label>Message<textarea required rows={4}/></label></>}<button className="btn" type="submit">{appointment ? "Request Appointment" : "Send Message"}</button></>}</form>; }
+function ContactForm({ appointment=false }: {appointment?:boolean}) {
+  const [sent,setSent] = useState(false);
+  const [sending,setSending] = useState(false);
+  const [error,setError] = useState("");
+  const formName = appointment ? "appointment-request" : "contact-message";
+
+  async function submit(e:FormEvent<HTMLFormElement>){
+    e.preventDefault();
+    const form = e.currentTarget;
+    setSending(true);
+    setError("");
+    const body = new URLSearchParams();
+    new FormData(form).forEach((value,key)=>body.append(key,String(value)));
+    try {
+      const response = await fetch("/__forms.html",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:body.toString()});
+      if(!response.ok) throw new Error("Submission failed");
+      form.reset();
+      setSent(true);
+    } catch {
+      setError("We could not send your request. Please try again or call +256 761 393 569.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return <form className="form" name={formName} method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={submit}>
+    <input type="hidden" name="form-name" value={formName}/><label hidden>Do not fill this field<input name="bot-field"/></label>
+    {sent ? <div className="success"><b>Thank you.</b><p>Your request has been sent successfully to CoreWell Uganda. Our team will contact you using the details you provided.</p><button className="btn" type="button" onClick={()=>setSent(false)}>Send another request</button></div> : <>
+      {appointment ? <><label>Full name<input required name="name" autoComplete="name"/></label><div className="formrow"><label>Phone number<input required type="tel" name="phone" autoComplete="tel"/></label><label>Email<input required type="email" name="email" autoComplete="email"/></label></div><div className="formrow"><label>Preferred service<select required name="service" defaultValue=""><option value="">Choose a service</option>{services.map(s=><option key={s[1]}>{s[1]}</option>)}</select></label><label>Patient type<select required name="patient-type" defaultValue="Individual"><option>Individual</option><option>Corporate</option><option>Athlete</option></select></label></div><div className="formrow"><label>Preferred date<input required type="date" name="preferred-date"/></label><label>Preferred time<input required type="time" name="preferred-time"/></label></div><label>Brief description of the problem<textarea required name="message" rows={5}/></label><label className="consent"><input required type="checkbox" name="consent" value="yes"/> I consent to CoreWell Uganda contacting me about this appointment request.</label></> : <><div className="formrow"><label>Full name<input required name="name" autoComplete="name"/></label><label>Phone number<input required type="tel" name="phone" autoComplete="tel"/></label></div><label>Email<input required type="email" name="email" autoComplete="email"/></label><label>Service needed<select required name="service" defaultValue=""><option value="">Select a service</option>{services.map(s=><option key={s[1]}>{s[1]}</option>)}</select></label><label>Message<textarea required name="message" rows={4}/></label></>}
+      {error && <p role="alert">{error}</p>}<button className="btn" type="submit" disabled={sending}>{sending ? "Sending..." : appointment ? "Request Appointment" : "Send Message"}</button>
+    </>}
+  </form>;
+}
 
 function PageHero({ eyebrow, title, copy }: {eyebrow:string;title:string;copy:string}) { return <section className="pagehero"><div className="container narrow"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{copy}</p></div></section>; }
 
