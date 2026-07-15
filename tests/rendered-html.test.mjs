@@ -23,18 +23,18 @@ test("server-renders the CoreWell home page", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>CoreWell Uganda[^<]*<\/title>/i);
-  assert.match(html, /Expert Physiotherapy/);
-  assert.match(html, /Stronger You/);
-  assert.match(html, /Book an Appointment/);
+  assert.match(html, /A Uganda that/);
+  assert.match(html, /moves without pain/);
+  assert.match(html, /Request a Free Assessment/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
 });
 
 test("server-renders article routes through the Netlify adapter", async () => {
-  const response = await render("/articles/manage-back-pain-at-work");
+  const response = await render("/articles/why-your-lower-back-hurts-at-your-desk");
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /How to Manage Back Pain at Work/);
+  assert.match(html, /Why Your Lower Back Hurts After a Long Day at Your Desk/);
   assert.match(html, /Back to Articles/);
   assert.match(html, /Need a personal assessment/);
 });
