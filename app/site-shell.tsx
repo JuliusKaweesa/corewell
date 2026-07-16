@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import {
   Accessibility,
   Activity,
@@ -126,7 +126,67 @@ function Footer() { return <footer><div className="container footergrid"><div><B
 
 function SectionHead({ eyebrow, title, copy, center=false }: { eyebrow:string; title:string; copy?:string; center?:boolean }) { return <div className={center ? "sectionhead center" : "sectionhead"}><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{copy && <p>{copy}</p>}</div>; }
 
-function Hero() { return <section className="hero"><div className="container hero-grid"><div><h1 className="hero-title-desktop">A Uganda that<br/><em>moves without pain.</em></h1><p className="lead">As physiotherapists working in clinical practice every day, we saw the same preventable problems affecting office workers, athletes and people living with chronic pain. CoreWell Uganda was built to solve the problem we saw with our own hands.</p><div className="actions"><Link className="btn" href="/appointment">Request a Free Assessment</Link><Link className="btn btn-ghost" href="/services">Explore Our Services</Link></div><div className="trust"><p className="trust-heading">Why it matters</p><div className="trust-stat"><p><b>80%</b> <small>of office workers experience MSK pain</small></p></div><div className="trust-stat"><p><b>#1</b> <small>leading cause of workplace absence globally</small></p></div><div className="trust-stat"><p><b>34%</b> <small>productivity loss from unmanaged MSK pain</small></p></div></div></div><div className="hero-visual"><div className="imageframe"><img src="/images/hero-physio.png" alt="Physiotherapist guiding a patient through a shoulder mobility exercise"/></div><div className="floatcard"><b className="floatcard-title">A Uganda that moves without pain.</b><h1 className="hero-title-mobile">A Uganda that<br/><em>moves without pain.</em></h1><span>Founded by clinicians. Built for Uganda.</span></div></div></div></section>; }
+function HeroArticleCarousel() {
+  const featuredArticles = articles.slice(0, 6);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const goTo = (index: number, behavior: ScrollBehavior = "smooth") => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollTo({ left: track.clientWidth * index, behavior });
+    setActive(index);
+  };
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+    const timer = window.setInterval(() => {
+      setActive(current => {
+        const next = (current + 1) % featuredArticles.length;
+        const track = trackRef.current;
+        if (track) track.scrollTo({ left: track.clientWidth * next, behavior: "smooth" });
+        return next;
+      });
+    }, 3000);
+    return () => window.clearInterval(timer);
+  }, [featuredArticles.length]);
+
+  const updateActiveSlide = () => {
+    const track = trackRef.current;
+    if (!track || track.clientWidth === 0) return;
+    setActive(Math.round(track.scrollLeft / track.clientWidth));
+  };
+
+  return <div className="hero-article-carousel" aria-label="Featured articles">
+    <div className="hero-carousel-track" ref={trackRef} onScroll={updateActiveSlide}>
+      {featuredArticles.map(article => <Link className="hero-article-slide" href={`/articles/${article.slug}`} key={article.slug}>
+        <img src={article.image} alt={article.imageAlt}/>
+        <span className="hero-article-category">{article.category}</span>
+        <span className="hero-article-copy"><b>{article.title}</b><small>Read article <span aria-hidden="true">→</span></small></span>
+      </Link>)}
+    </div>
+    <div className="hero-carousel-dots" aria-label="Choose an article">
+      {featuredArticles.map((article, index) => <button className={active === index ? "active" : ""} type="button" key={article.slug} onClick={() => goTo(index)} aria-label={`Show article ${index + 1}: ${article.title}`} aria-current={active === index ? "true" : undefined}/>) }
+    </div>
+  </div>;
+}
+
+function Hero() {
+  return <section className="hero"><div className="container hero-grid">
+    <div>
+      <h1 className="hero-title-desktop">A Uganda that<br/><em>moves without pain.</em></h1>
+      <p className="lead">As physiotherapists working in clinical practice every day, we saw the same preventable problems affecting office workers, athletes and people living with chronic pain. CoreWell Uganda was built to solve the problem we saw with our own hands.</p>
+      <div className="actions"><Link className="btn" href="/appointment">Request a Free Assessment</Link><Link className="btn btn-ghost" href="/services">Explore Our Services</Link></div>
+      <div className="trust"><p className="trust-heading">Why it matters</p><div className="trust-stat"><p><b>80%</b> <small>of office workers experience MSK pain</small></p></div><div className="trust-stat"><p><b>#1</b> <small>leading cause of workplace absence globally</small></p></div><div className="trust-stat"><p><b>34%</b> <small>productivity loss from unmanaged MSK pain</small></p></div></div>
+    </div>
+    <div className="hero-visual">
+      <div className="imageframe"><img src="/images/hero-physio.png" alt="Physiotherapist guiding a patient through a shoulder mobility exercise"/></div>
+      <HeroArticleCarousel/>
+      <div className="floatcard"><b className="floatcard-title">A Uganda that moves without pain.</b><h1 className="hero-title-mobile">A Uganda that<br/><em>moves without pain.</em></h1><span>Founded by clinicians. Built for Uganda.</span></div>
+    </div>
+  </div></section>;
+}
 
 const serviceIcons: Record<string, LucideIcon> = {
   "Musculoskeletal Physiotherapy": BicepsFlexed,

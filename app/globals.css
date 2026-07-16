@@ -232,4 +232,22 @@ footer{padding:70px 0 18px;background:#082d48;color:#d4e4ec}.footergrid{display:
   .footergrid>div{padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1)}
   .footergrid>div:last-child{border-bottom:0}
 }
+.hero-article-carousel{display:none}
+@media(max-width:767px){
+  .hero-visual .imageframe{display:none}
+  .hero-article-carousel{position:relative;display:block;overflow:hidden;border:4px solid #fff;border-radius:22px;background:var(--dark-blue);box-shadow:0 18px 40px rgba(10,53,84,.16)}
+  .hero-carousel-track{display:flex;width:100%;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;touch-action:pan-x pan-y}
+  .hero-carousel-track::-webkit-scrollbar{display:none}
+  .hero-article-slide{position:relative;flex:0 0 100%;height:clamp(280px,78vw,340px);overflow:hidden;scroll-snap-align:center;scroll-snap-stop:always;color:#fff}
+  .hero-article-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,37,59,.08) 20%,rgba(5,37,59,.92) 100%)}
+  .hero-article-slide img{width:100%;height:100%;object-fit:cover}
+  .hero-article-category{position:absolute;z-index:2;left:16px;top:16px;padding:6px 10px;border-radius:999px;background:rgba(30,132,73,.92);color:#fff;font:800 .63rem Manrope;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(8px)}
+  .hero-article-copy{position:absolute;z-index:2;left:18px;right:18px;bottom:46px;display:block}
+  .hero-article-copy b{display:block;color:#fff;font:800 clamp(1.18rem,5.5vw,1.45rem)/1.23 Manrope;text-wrap:balance}
+  .hero-article-copy small{display:block;margin-top:10px;color:#bce8ce;font:700 .72rem Manrope}
+  .hero-carousel-dots{position:absolute;z-index:3;right:14px;top:14px;display:flex;gap:5px;padding:6px 8px;border-radius:999px;background:rgba(5,37,59,.58);backdrop-filter:blur(8px)}
+  .hero-carousel-dots button{width:6px;height:6px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.45);cursor:pointer;transition:width .2s ease,background .2s ease}
+  .hero-carousel-dots button.active{width:18px;border-radius:999px;background:#8fe2af}
+  .hero-carousel-dots button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
