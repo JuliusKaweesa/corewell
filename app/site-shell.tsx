@@ -180,6 +180,51 @@ function HeroArticleCarousel() {
   </div>;
 }
 
+function CoreValuesCarousel() {
+  const values = [
+    { title: "Our vision", body: "A Uganda that moves without pain.", className: "valuecard-vision" },
+    { title: "Our Mission", body: "We are physiotherapists who identified a musculoskeletal health crisis in Uganda's workplaces, sports fields, and communities, and built a company to solve it. We prevent, treat, and rehabilitate with clinical excellence, one patient and one organisation at a time.", className: "valuecard-mission" },
+    { title: "Our Approach", body: "Clinical excellence first. Business outcomes follow. Every CoreWell programme is evidence-based, outcomes-measured, and delivered by licensed health professionals, not fitness instructors, not wellness generalists.", className: "valuecard-approach" },
+  ];
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const goTo = (index: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollTo({ left: track.clientWidth * index, behavior: "smooth" });
+    setActive(index);
+  };
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      setActive(current => {
+        const next = (current + 1) % values.length;
+        const track = trackRef.current;
+        if (track) track.scrollTo({ left: track.clientWidth * next, behavior: "smooth" });
+        return next;
+      });
+    }, 3000);
+    return () => window.clearInterval(timer);
+  }, [values.length]);
+
+  const updateActiveSlide = () => {
+    const track = trackRef.current;
+    if (!track || track.clientWidth === 0) return;
+    setActive(Math.round(track.scrollLeft / track.clientWidth));
+  };
+
+  return <div className="value-carousel" aria-label="CoreWell vision, mission and approach">
+    <div className="valuegrid value-carousel-track" ref={trackRef} onScroll={updateActiveSlide}>
+      {values.map(value => <div className={`valuecard ${value.className}`} key={value.title}><b>{value.title}</b><span>{value.body}</span></div>)}
+    </div>
+    <div className="value-carousel-dots" aria-label="Choose a CoreWell statement">
+      {values.map((value, index) => <button className={active === index ? "active" : ""} type="button" key={value.title} onClick={() => goTo(index)} aria-label={`Show ${value.title}`} aria-current={active === index ? "true" : undefined}/>) }
+    </div>
+  </div>;
+}
+
 function Hero() {
   return <section className="hero"><div className="container hero-grid">
     <div>
@@ -275,11 +320,7 @@ function HomePage(){
           <blockquote className="story-highlight">“We did not create this problem. We found it in our clinics, in our data, in the stories our patients told us about their workdays. CoreWell aims to <strong>PREVENT</strong> pain before it begins.”</blockquote>
           <p className="story-followup">We are a formally registered private limited company that offers structured clinical programs to address these musculoskeletal issues at workstation sites.</p>
         </div>
-        <div className="valuegrid">
-          <div className="valuecard valuecard-vision"><b>Our vision</b><span>A Uganda that moves without pain.</span></div>
-          <div className="valuecard valuecard-mission"><b>Our Mission</b><span>We are physiotherapists who identified a musculoskeletal health crisis in Uganda&apos;s workplaces, sports fields, and communities, and built a company to solve it. We prevent, treat, and rehabilitate with clinical excellence, one patient and one organisation at a time.</span></div>
-          <div className="valuecard valuecard-approach"><b>Our Approach</b><span>Clinical excellence first. Business outcomes follow. Every CoreWell programme is evidence-based, outcomes-measured, and delivered by licensed health professionals, not fitness instructors, not wellness generalists.</span></div>
-        </div>
+        <CoreValuesCarousel/>
         <Link className="btn btn-ghost" href="/about">Learn More About CoreWell</Link>
       </div>
     </section>
