@@ -325,7 +325,7 @@ function HomePage(){
       </div>
     </section>
     <section className="section pale"><div className="container"><SectionHead eyebrow="Our specialist divisions" title="Three divisions. One clinical standard."/><DivisionGrid/></div></section>
-    <section className="section pale" id="why-corewell"><div className="container"><SectionHead center eyebrow="Why CoreWell" title="There is no substitute for clinical authority."/><div className="infogrid"><article><span>01</span><h3>Clinical Leadership</h3><p>Every programme is designed and delivered by licensed physiotherapists.</p></article><article><span>02</span><h3>Evidence-Based Protocols</h3><p>Care is grounded in clinical evidence and adapted to each patient, workforce or athlete.</p></article><article><span>03</span><h3>Measurable Outcomes</h3><p>We track progress so patients and organisations can see the results of care.</p></article></div></div></section>
+    <section className="section pale" id="why-corewell"><div className="container"><SectionHead center eyebrow="Why CoreWell" title="There is no substitute for clinical authority."/><div className="infogrid"><article><span>01</span><h3>Clinical Leadership</h3><p>Every programme is designed and delivered by licensed physiotherapists.</p></article><article><span>02</span><h3>Evidence-Based Protocols</h3><p>Care is grounded in clinical evidence and adapted to each patient, workforce or athlete.</p></article><article><span>03</span><h3>Measurable Outcomes</h3><p>We track progress so patients and organisations can see the results of care.</p></article></div><Link className="btn why-more" href="/about">Find out more why you should choose us</Link></div></section>
     <ContactSection/>
   </>;
 }
