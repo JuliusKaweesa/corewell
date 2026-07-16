@@ -29,6 +29,14 @@ const nav = [
   ["Our Team", "/team"], ["Patient Information", "/patient-information"], ["Articles", "/articles"], ["Contact", "/contact"],
 ];
 
+const mobileNav = [
+  ["About", "/about"],
+  ["Services", "/services"],
+  ["Our Team", "/team"],
+  ["Why CoreWell", "/#why-corewell"],
+  ["The CoreWell Clinic", "/articles"],
+];
+
 const services = [
   ["MS", "Musculoskeletal Physiotherapy", "Clinical assessment and evidence-based rehabilitation for muscle, joint and movement conditions.", "People living with pain, stiffness or reduced mobility.", "Joint pain, sprains, strains and posture-related pain"],
   ["SR", "Sports Injury Rehabilitation", "Sport-specific rehabilitation that restores movement, confidence and performance.", "Recreational and competitive athletes.", "Sports injuries, overuse problems and reduced performance"],
@@ -111,7 +119,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   return <>
     <div className="topbar"><div className="container topbar-inner"><span>People&apos;s Medical Hospital, Gayaza, Kampala</span><span><a href="tel:+256761393569">+256 761 393 569</a><i /> <a href="mailto:info@corewellmusculoskeletaluganda.com">info@corewellmusculoskeletaluganda.com</a></span></div></div>
-    <header className="header"><div className="container navrow"><Brand/><button className="menubtn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle navigation"><span/><span/><span/></button><nav className={open ? "nav open" : "nav"}>{nav.map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>)}<Link className="btn btn-small" href="/appointment" onClick={() => setOpen(false)}>Book Appointment</Link></nav></div></header>
+    <header className="header"><div className="container navrow"><Brand/><button className="menubtn" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle navigation"><span/><span/><span/></button><nav className={open ? "nav open" : "nav"}>{nav.map(([label, href]) => <Link className="desktop-menu-item" key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>)}{mobileNav.map(([label, href]) => <Link className="mobile-menu-item" key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>)}<Link className="btn btn-small desktop-menu-item" href="/appointment" onClick={() => setOpen(false)}>Book Appointment</Link><Link className="btn btn-small mobile-menu-item mobile-contact" href="/contact" onClick={() => setOpen(false)}>Contact Us</Link></nav></div></header>
     <nav className="mobile-dock" aria-label="Mobile quick navigation">
       <Link href="/"><Home aria-hidden="true"/><span>Home</span></Link>
       <Link href="/services"><Stethoscope aria-hidden="true"/><span>Services</span></Link>
@@ -276,7 +284,7 @@ function HomePage(){
       </div>
     </section>
     <section className="section pale"><div className="container"><SectionHead eyebrow="Our specialist divisions" title="Three divisions. One clinical standard."/><DivisionGrid/></div></section>
-    <section className="section pale"><div className="container"><SectionHead center eyebrow="Why CoreWell" title="There is no substitute for clinical authority."/><div className="infogrid"><article><span>01</span><h3>Clinical Leadership</h3><p>Every programme is designed and delivered by licensed physiotherapists.</p></article><article><span>02</span><h3>Evidence-Based Protocols</h3><p>Care is grounded in clinical evidence and adapted to each patient, workforce or athlete.</p></article><article><span>03</span><h3>Measurable Outcomes</h3><p>We track progress so patients and organisations can see the results of care.</p></article></div></div></section>
+    <section className="section pale" id="why-corewell"><div className="container"><SectionHead center eyebrow="Why CoreWell" title="There is no substitute for clinical authority."/><div className="infogrid"><article><span>01</span><h3>Clinical Leadership</h3><p>Every programme is designed and delivered by licensed physiotherapists.</p></article><article><span>02</span><h3>Evidence-Based Protocols</h3><p>Care is grounded in clinical evidence and adapted to each patient, workforce or athlete.</p></article><article><span>03</span><h3>Measurable Outcomes</h3><p>We track progress so patients and organisations can see the results of care.</p></article></div></div></section>
     <section className="section"><div className="container"><SectionHead eyebrow="The CoreWell Clinic" title="Clinical insight for work, health and performance"/><ArticleCards limit={3}/></div></section>
     <ContactSection/>
   </>;
