@@ -236,6 +236,7 @@ footer{padding:70px 0 18px;background:#082d48;color:#d4e4ec}.footergrid{display:
   .footergrid>div{padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1)}
   .footergrid>div:last-child{border-bottom:0}
 }
+.whatsapp-btn{width:100%;min-height:54px;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;padding:10px 20px;border-radius:12px;background:#1f9d55;color:#fff;font:800 .9rem Manrope;box-shadow:0 10px 24px rgba(31,157,85,.2);transition:.2s ease}.whatsapp-btn:hover{background:#168346;transform:translateY(-2px)}.whatsapp-btn svg{width:21px;height:21px}.corporate-enquiry{margin-top:14px;padding:22px;border-radius:14px;background:linear-gradient(145deg,var(--blue),var(--dark-blue));box-shadow:0 12px 28px rgba(10,53,84,.16)}.corporate-enquiry b{display:block;margin-bottom:8px;color:#fff;font:800 1rem Manrope}.corporate-enquiry p{margin:0;color:#e1eff6;font-size:.84rem;line-height:1.65}
 .hero-article-carousel,.value-carousel-dots{display:none}
 @media(max-width:767px){
   .hero-visual .imageframe{display:none}
