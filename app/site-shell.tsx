@@ -238,7 +238,7 @@ function Hero() {
     <div>
       <h1 className="hero-title-desktop">A Uganda that<br/><em>moves without pain.</em></h1>
       <p className="lead">As physiotherapists working in clinical practice every day, we saw the same preventable problems affecting office workers, athletes and people living with chronic pain. CoreWell Uganda was built to solve the problem we saw with our own hands.</p>
-      <div className="actions"><Link className="btn" href="/appointment">Request a Free Assessment</Link><Link className="btn btn-ghost" href="/services">Explore Our Services</Link></div>
+      <div className="actions"><Link className="btn" href="/appointment">Book a free Workforce Assessment</Link><Link className="btn btn-ghost" href="/services">Explore Our Services</Link></div>
       <div className="trust"><p className="trust-heading">Why it matters</p><div className="trust-stat"><p><b>80%</b> <small>of office workers experience MSK pain</small></p></div><div className="trust-stat"><p><b>#1</b> <small>leading cause of workplace absence globally</small></p></div><div className="trust-stat"><p><b>34%</b> <small>productivity loss from unmanaged MSK pain</small></p></div></div>
     </div>
     <div className="hero-visual">
