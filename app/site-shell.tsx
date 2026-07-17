@@ -253,16 +253,14 @@ function CoreValuesCarousel() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => {
-      setActive(current => {
-        const next = (current + 1) % values.length;
-        const track = trackRef.current;
-        if (track) track.scrollTo({ left: track.clientWidth * next, behavior: "smooth" });
-        return next;
-      });
-    }, 3000);
-    return () => window.clearInterval(timer);
-  }, [values.length]);
+    const timer = window.setTimeout(() => {
+      const next = (active + 1) % values.length;
+      const track = trackRef.current;
+      if (track) track.scrollTo({ left: track.clientWidth * next, behavior: "smooth" });
+      setActive(next);
+    }, 12000);
+    return () => window.clearTimeout(timer);
+  }, [active, values.length]);
 
   const updateActiveSlide = () => {
     const track = trackRef.current;
