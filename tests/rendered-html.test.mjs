@@ -77,14 +77,15 @@ test("server-renders the specialist services page", async () => {
   assert.match(html, /id="corewell-performance"/);
 });
 
-test("appointment form offers only the three current service groups", async () => {
+test("appointment form offers the four current enquiry options", async () => {
   const response = await render("/appointment");
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /<option>Corporate<\/option>/);
-  assert.match(html, /<option>Athlete<\/option>/);
-  assert.match(html, /<option>Spine Care<\/option>/);
+  assert.match(html, /CoreWell Corporate — Workplace Wellness/);
+  assert.match(html, /CoreWell Spine Specialist Clinic/);
+  assert.match(html, /CoreWell Performance — Golf Physiotherapy/);
+  assert.match(html, /General Enquiry/);
   assert.doesNotMatch(html, /Musculoskeletal Physiotherapy/);
 });
 
