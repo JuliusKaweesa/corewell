@@ -282,3 +282,5 @@ footer{padding:70px 0 18px;background:#082d48;color:#d4e4ec}.footergrid{display:
 .corporate-division .division-number,.corporate-division h2{color:#173f79}
 .spine-division .division-number,.spine-division h2{color:var(--green)}
 .performance-division .division-number,.performance-division h2{color:#e97819}
+.team-profiles-heading{max-width:920px;margin:0 auto 30px;color:var(--dark-blue);font-size:clamp(1.35rem,2.2vw,2rem);letter-spacing:.08em;text-align:center;text-transform:uppercase}
+@media(max-width:767px){.team-profiles-heading{margin-bottom:22px;font-size:1.15rem}}

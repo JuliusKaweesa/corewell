@@ -79,5 +79,6 @@ test("server-renders the Team advisory panel", async () => {
   assert.match(html, /Clinical lead and Co-founder CoreWell Uganda/);
   assert.match(html, /Emmanuel Kajwiga/);
   assert.match(html, /Clinician and Cofounder, CoreWell Uganda/);
+  assert.match(html, /Meet Our Team/);
   assert.doesNotMatch(html, /Clinicians first\. Business builders second\./);
 });
