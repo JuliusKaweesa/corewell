@@ -29,6 +29,9 @@ test("server-renders the CoreWell home page", async () => {
   assert.match(html, /Book a free Workforce Assessment/);
   assert.match(html, /href="\/contact#corporate-enquiries"[^>]*>Book a free Workforce Assessment/);
   assert.match(html, /office &amp; manual workers/);
+  assert.match(html, /href="\/services#corewell-corporate"[^>]*>Learn more/);
+  assert.match(html, /href="\/services#spine-specialist-clinic"[^>]*>Learn more/);
+  assert.match(html, /href="\/services#corewell-performance"[^>]*>Learn more/);
   assert.match(html, /Any company can offer wellness programmes/);
   assert.match(html, /Pioneer Positioning/);
   assert.match(html, /Integrated Model/);
@@ -60,6 +63,9 @@ test("server-renders the specialist services page", async () => {
   assert.match(html, /Request Free Workplace Assessment/);
   assert.match(html, /Book A Consultation/);
   assert.match(html, /Book a Golf Physio Session/);
+  assert.match(html, /id="corewell-corporate"/);
+  assert.match(html, /id="spine-specialist-clinic"/);
+  assert.match(html, /id="corewell-performance"/);
 });
 
 test("server-renders the Team advisory panel", async () => {

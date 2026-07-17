@@ -300,7 +300,7 @@ function DivisionFeatures({ items }: { items: Array<[LucideIcon, string, string]
 
 function SpecialistServices() {
   return <div className="specialist-services">
-    <section className="specialist-division corporate-division"><div className="container specialist-inner">
+    <section className="specialist-division corporate-division" id="corewell-corporate"><div className="container specialist-inner">
       <span className="division-number">Specialist division 01</span>
       <h2>CoreWell Corporate</h2>
       <p className="division-promise">Protect your workforce, protect your bottom line.</p>
@@ -309,7 +309,7 @@ function SpecialistServices() {
       <DivisionFeatures items={corporateFeatures}/>
     </div></section>
 
-    <section className="specialist-division spine-division"><div className="container specialist-inner">
+    <section className="specialist-division spine-division" id="spine-specialist-clinic"><div className="container specialist-inner">
       <span className="division-number">Specialist division 02</span>
       <h2>CoreWell Spine Specialist Clinic</h2>
       <p className="division-promise">Uganda&apos;s home for specialist spine care.</p>
@@ -319,7 +319,7 @@ function SpecialistServices() {
       <aside className="development-status"><b>Development Status</b><p>The CoreWell Spine Specialist Clinic is currently in development, with opening planned on the Kampala–Gayaza highway in 2028. Clinical consultations with the founding physiotherapy team are available now. Contact us to discuss your clinical needs.</p></aside>
     </div></section>
 
-    <section className="specialist-division performance-division"><div className="container specialist-inner">
+    <section className="specialist-division performance-division" id="corewell-performance"><div className="container specialist-inner">
       <span className="division-number">Specialist division 03</span>
       <h2>CoreWell Performance</h2>
       <p className="division-promise">Play better. Move better. Last longer.</p>
@@ -330,7 +330,14 @@ function SpecialistServices() {
   </div>;
 }
 
-function DivisionGrid({ detailed=false }: { detailed?:boolean }) { return <div className="divisiongrid">{divisions.map(([tag,title,desc,items]) => <article className="divisioncard" key={title as string}><span className="divisiontag">{tag as string}</span><h3>{title as string}</h3><p>{desc as string}</p>{detailed && <ul>{(items as string[]).map(i => <li key={i}>{i}</li>)}</ul>}<Link className="textlink" href={detailed ? "/appointment" : "/divisions"}>{detailed ? "Book an appointment" : "Learn more"} <span>→</span></Link></article>)}</div>; }
+function DivisionGrid({ detailed=false }: { detailed?:boolean }) {
+  const serviceLinks: Record<string,string> = {
+    Corporate: "/services#corewell-corporate",
+    Spine: "/services#spine-specialist-clinic",
+    Performance: "/services#corewell-performance",
+  };
+  return <div className="divisiongrid">{divisions.map(([tag,title,desc,items]) => <article className="divisioncard" key={title as string}><span className="divisiontag">{tag as string}</span><h3>{title as string}</h3><p>{desc as string}</p>{detailed && <ul>{(items as string[]).map(i => <li key={i}>{i}</li>)}</ul>}<Link className="textlink" href={detailed ? "/appointment" : serviceLinks[tag as string]}>{detailed ? "Book an appointment" : "Learn more"} <span>→</span></Link></article>)}</div>;
+}
 
 function WhyCoreWellSection() {
   return <section className="section why-corewell-expanded" id="why-corewell"><div className="container">
