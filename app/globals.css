@@ -273,3 +273,8 @@ footer{padding:70px 0 18px;background:#082d48;color:#d4e4ec}.footergrid{display:
 .mobile-brand-suffix{display:none}
 @media(max-width:767px){.header .brand{width:54px;height:54px;flex:0 0 54px}.header .brand-logo{position:static;width:54px;height:54px;object-fit:contain;transform:none}.header .brand>span{position:absolute;left:50%;top:22px;bottom:auto;width:max-content;max-width:230px;transform:translateX(-50%);text-align:center}.header .brand b{display:block;color:var(--dark-blue);font:800 clamp(1.02rem,4.6vw,1.18rem)/1 Manrope;letter-spacing:-.035em;white-space:nowrap}.header .brand b em{color:var(--green)}.header .brand .mobile-brand-suffix{display:inline;color:var(--dark-blue)}.header .brand small{margin-top:8px;font-size:.45rem;letter-spacing:.015em;white-space:nowrap}}
 .corporate-enquiry{scroll-margin-top:120px}
+.valuegrid .valuecard-mission{background:linear-gradient(145deg,#f7941d,#ffb44d);border-color:rgba(190,88,10,.22);border-left-color:#c85e0b;box-shadow:0 14px 28px rgba(201,100,22,.18)}
+.valuegrid .valuecard-mission b,.valuegrid .valuecard-mission span{color:var(--dark-blue)}
+.valuegrid .valuecard-approach{background:linear-gradient(145deg,var(--green),#2da460);border-left-color:#bce8ce;box-shadow:0 14px 28px rgba(30,132,73,.2)}
+.valuegrid .valuecard-approach b{color:#d7f5e2}
+.valuegrid .valuecard-approach span{color:#fff}
