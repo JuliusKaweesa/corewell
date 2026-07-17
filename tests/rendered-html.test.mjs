@@ -27,6 +27,11 @@ test("server-renders the CoreWell home page", async () => {
   assert.match(html, /moves without pain/);
   assert.match(html, /Book a free Workforce Assessment/);
   assert.match(html, /Any company can offer wellness programmes/);
+  assert.match(html, /Pioneer Positioning/);
+  assert.match(html, /Integrated Model/);
+  assert.match(html, /Built From Clinical Observation/);
+  assert.match(html, /A fitness or wellness programme/);
+  assert.match(html, /A CoreWell clinical programme/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
 });
 

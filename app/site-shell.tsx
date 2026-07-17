@@ -84,6 +84,33 @@ const performanceFeatures: Array<[LucideIcon, string, string]> = [
   [HeartHandshake, "Uganda Golf Union Partnership", "CoreWell Performance is the proposed official sports physiotherapy partner of the Uganda Golf Union, bringing specialist care to every affiliated club and tournament."],
 ];
 
+const whyCoreWellPoints: Array<[LucideIcon, string, string]> = [
+  [Stethoscope, "Clinical Leadership", "Every CoreWell engagement is led by licensed physiotherapists. Not fitness instructors. Not wellness coaches. Clinical professionals with the training, registration, and accountability that corporate contracts and patient care demand."],
+  [MonitorCheck, "Evidence-Based Protocols", "All CoreWell programmes are built on validated clinical protocols, not generic wellness content. This enables outcomes measurement, insurer alignment, and a level of clinical defensibility that no fitness-based provider can offer."],
+  [Activity, "Measurable Outcomes", "Every corporate programme generates monthly clinical outcome data. We do not ask you to take our word for it — we give you the numbers. Attendance, MSK symptom changes, risk stratification, programme effectiveness."],
+  [MapPin, "Pioneer Positioning", "CoreWell Spine Specialist Clinic will be the first private specialist spine rehabilitation centre in Uganda. First-mover advantage in a high-need, high-value segment that is currently completely unserved by the private sector."],
+  [HeartHandshake, "Integrated Model", "CoreWell is the only entity in Uganda offering corporate wellness, specialist spine care, and sports physiotherapy under one brand and one clinical governance framework. One company. One standard. Three entry points."],
+  [HeartPulse, "Built From Clinical Observation", "CoreWell was not created in a boardroom. It grew from the clinical evidence our founders gathered treating hundreds of corporate patients. We are not solving a hypothetical problem — we are solving one we watched develop in our own clinics."],
+];
+
+const generalWellnessComparison = [
+  "Gets people moving generally",
+  "Can be delivered by any instructor",
+  "No clinical baseline or outcome data",
+  "Cannot identify at-risk employees",
+  "Cannot manage an injury when it occurs",
+  "Provides no data for HR or insurers",
+];
+
+const corewellClinicalComparison = [
+  "Targets specific MSK risk factors in your workforce",
+  "Designed and supervised by licensed physiotherapists",
+  "Begins with clinical screening, ends with outcome data",
+  "Identifies high-risk individuals before they become injuries",
+  "Has clinical authority to assess and manage injuries on-site",
+  "Delivers monthly clinical reports to HR and insurers",
+];
+
 export const articles = [
   { slug: "why-your-lower-back-hurts-at-your-desk", category: "Workplace Health", author: "Julius Kaweesa", title: "Why Your Lower Back Hurts After a Long Day at Your Desk", excerpt: "If you finish work every day with a dull ache in your lower back, you are not alone — and you are not imagining it. Here is the clinical explanation and what you can do about it.", date: "June 2026", time: "4 min read", image: "/images/articles/back-pain-at-work.jpg", imageAlt: "A physiotherapist helping an office worker adjust his chair and sitting posture", content: [
     "If you finish work every day with a dull ache in your lower back, you are not alone — and you are not imagining it. Lower back pain is the single most common complaint we see in office-based workers at our clinic, and in the vast majority of cases, it has a very specific and very preventable cause.",
@@ -307,6 +334,18 @@ function SpecialistServices() {
 
 function DivisionGrid({ detailed=false }: { detailed?:boolean }) { return <div className="divisiongrid">{divisions.map(([tag,title,desc,items]) => <article className="divisioncard" key={title as string}><span className="divisiontag">{tag as string}</span><h3>{title as string}</h3><p>{desc as string}</p>{detailed && <ul>{(items as string[]).map(i => <li key={i}>{i}</li>)}</ul>}<Link className="textlink" href={detailed ? "/appointment" : "/divisions"}>{detailed ? "Book an appointment" : "Learn more"} <span>→</span></Link></article>)}</div>; }
 
+function WhyCoreWellSection() {
+  return <section className="section why-corewell-expanded" id="why-corewell"><div className="container">
+    <SectionHead center eyebrow="Why CoreWell" title="There is no substitute for clinical authority." copy="Any company can offer wellness programmes. Only licensed healthcare professionals can offer what CoreWell delivers. Here is what that difference means in practice."/>
+    <div className="why-difference-grid">{whyCoreWellPoints.map(([Icon,title,copy]) => <article className="why-difference-card" key={title}><span className="why-difference-icon"><Icon aria-hidden="true" size={29} strokeWidth={1.65}/></span><h3>{title}</h3><p>{copy}</p></article>)}</div>
+    <div className="programme-comparison">
+      <article className="comparison-panel comparison-general"><h3>A fitness or wellness programme...</h3><ul>{generalWellnessComparison.map(item => <li key={item}><span aria-hidden="true">×</span>{item}</li>)}</ul></article>
+      <article className="comparison-panel comparison-corewell"><h3>A CoreWell clinical programme...</h3><ul>{corewellClinicalComparison.map(item => <li key={item}><span aria-hidden="true">✓</span>{item}</li>)}</ul></article>
+    </div>
+    <Link className="btn why-more" href="/about">Find out more why you should choose us</Link>
+  </div></section>;
+}
+
 function TeamCards() { const team = [
   { image: "/images/team/julius.jpeg", name: "Julius Kaweesa", role: "Clinical lead and Co-founder CoreWell Uganda" },
   { image: "/images/team/emma.jpeg", name: "Emmanuel Kajwiga", role: "Clinician and Cofounder, CoreWell Uganda" },
@@ -369,7 +408,7 @@ function HomePage(){
       </div>
     </section>
     <section className="section pale"><div className="container"><SectionHead eyebrow="Our specialist divisions" title="Three divisions. One clinical standard."/><DivisionGrid/></div></section>
-    <section className="section pale" id="why-corewell"><div className="container"><SectionHead center eyebrow="Why CoreWell" title="There is no substitute for clinical authority." copy="Any company can offer wellness programmes. Only licensed healthcare professionals can offer what CoreWell delivers. Here is what that difference means in practice."/><div className="infogrid"><article><span>01</span><h3>Clinical Leadership</h3><p>Every programme is designed and delivered by licensed physiotherapists.</p></article><article><span>02</span><h3>Evidence-Based Protocols</h3><p>Care is grounded in clinical evidence and adapted to each patient, workforce or athlete.</p></article><article><span>03</span><h3>Measurable Outcomes</h3><p>We track progress so patients and organisations can see the results of care.</p></article></div><Link className="btn why-more" href="/about">Find out more why you should choose us</Link></div></section>
+    <WhyCoreWellSection/>
     <ContactSection/>
   </>;
 }
