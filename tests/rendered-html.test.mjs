@@ -52,3 +52,13 @@ test("server-renders the specialist services page", async () => {
   assert.match(html, /Book A Consultation/);
   assert.match(html, /Book a Golf Physio Session/);
 });
+
+test("server-renders the Team advisory panel", async () => {
+  const response = await render("/team");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /Clinical Advisory and Implementation Panel/);
+  assert.match(html, /physiotherapy, medicine, and orthopaedics/);
+  assert.doesNotMatch(html, /Clinicians first\. Business builders second\./);
+});
