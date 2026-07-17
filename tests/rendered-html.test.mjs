@@ -60,5 +60,9 @@ test("server-renders the Team advisory panel", async () => {
   const html = await response.text();
   assert.match(html, /Clinical Advisory and Implementation Panel/);
   assert.match(html, /physiotherapy, medicine, and orthopaedics/);
+  assert.match(html, /Julius Kaweesa/);
+  assert.match(html, /Clinical lead and Co-founder CoreWell Uganda/);
+  assert.match(html, /Emmanuel Kajwiga/);
+  assert.match(html, /Clinician and Cofounder, CoreWell Uganda/);
   assert.doesNotMatch(html, /Clinicians first\. Business builders second\./);
 });
