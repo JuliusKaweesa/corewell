@@ -27,6 +27,7 @@ test("server-renders the CoreWell home page", async () => {
   assert.match(html, /A Uganda that/);
   assert.match(html, /moves without pain/);
   assert.match(html, /Book a free Workforce Assessment/);
+  assert.match(html, /href="\/contact#corporate-enquiries"[^>]*>Book a free Workforce Assessment/);
   assert.match(html, /office &amp; manual workers/);
   assert.match(html, /Any company can offer wellness programmes/);
   assert.match(html, /Pioneer Positioning/);
