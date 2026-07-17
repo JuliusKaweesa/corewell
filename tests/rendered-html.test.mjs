@@ -52,6 +52,14 @@ test("server-renders article routes through the Netlify adapter", async () => {
   assert.match(html, /Need a personal assessment/);
 });
 
+test("server-renders the CoreWell Clinic introduction", async () => {
+  const response = await render("/articles");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /licensed health professionals/);
+});
+
 test("server-renders the specialist services page", async () => {
   const response = await render("/services");
   assert.equal(response.status, 200);
