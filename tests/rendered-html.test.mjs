@@ -29,6 +29,7 @@ test("server-renders the CoreWell home page", async () => {
   assert.match(html, /Book a free Workforce Assessment/);
   assert.match(html, /href="\/contact#corporate-enquiries"[^>]*>Book a free Workforce Assessment/);
   assert.match(html, /office &amp; manual workers/);
+  assert.match(html, /MSK is the leading cause of workplace absence globally/);
   assert.match(html, /href="\/services#corewell-corporate"[^>]*>Learn more/);
   assert.match(html, /href="\/services#spine-specialist-clinic"[^>]*>Learn more/);
   assert.match(html, /href="\/services#corewell-performance"[^>]*>Learn more/);
