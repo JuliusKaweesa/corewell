@@ -23,6 +23,7 @@ test("server-renders the CoreWell home page", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>CoreWell Uganda[^<]*<\/title>/i);
+  assert.match(html, /MSK Uganda/);
   assert.match(html, /A Uganda that/);
   assert.match(html, /moves without pain/);
   assert.match(html, /Book a free Workforce Assessment/);

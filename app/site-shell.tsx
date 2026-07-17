@@ -168,7 +168,7 @@ export const articles = [
   ] },
 ];
 
-function Brand() { return <Link className="brand" href="/" aria-label="CoreWell Uganda home"><img className="brand-logo" src="/images/corewell-logo.png" alt="" /><span><b>Core<em>Well</em></b><small>Musculoskeletal Health · Wellness · Performance</small></span></Link>; }
+function Brand() { return <Link className="brand" href="/" aria-label="CoreWell Uganda home"><img className="brand-logo" src="/images/corewell-logo.png" alt="" /><span><b>Core<em>Well</em><span className="mobile-brand-suffix"> MSK Uganda</span></b><small>Musculoskeletal Health · Wellness · Performance</small></span></Link>; }
 
 function Header() {
   const [open, setOpen] = useState(false);
