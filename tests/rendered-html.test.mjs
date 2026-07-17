@@ -38,3 +38,17 @@ test("server-renders article routes through the Netlify adapter", async () => {
   assert.match(html, /Back to Articles/);
   assert.match(html, /Need a personal assessment/);
 });
+
+test("server-renders the specialist services page", async () => {
+  const response = await render("/services");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /Our specialist divisions/);
+  assert.match(html, /CoreWell Corporate/);
+  assert.match(html, /CoreWell Spine Specialist Clinic/);
+  assert.match(html, /CoreWell Performance/);
+  assert.match(html, /Request Free Workplace Assessment/);
+  assert.match(html, /Book A Consultation/);
+  assert.match(html, /Book a Golf Physio Session/);
+});

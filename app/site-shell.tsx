@@ -3,11 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import {
-  Accessibility,
   Activity,
-  Baby,
-  BicepsFlexed,
-  Bone,
   BoneFracture,
   Dumbbell,
   HeartHandshake,
@@ -62,6 +58,30 @@ const divisions = [
   ["Corporate", "CoreWell Corporate", "Protect your workforce. Protect your bottom line.", ["Baseline MSK screening", "Ergonomic workstation assessment", "Weekly supervised sessions", "Home exercise programmes", "Monthly clinical reporting", "Workforce outcome measurement"]],
   ["Spine", "CoreWell Spine Specialist Clinic", "Uganda's home for specialist spine care.", ["Specialist spinal assessment", "Protocol-driven rehabilitation", "MSK ultrasound assessment", "Chronic pain management", "Post-surgical rehabilitation", "Complex spinal care"]],
   ["Performance", "CoreWell Performance", "Play better. Move better. Last longer.", ["Golf physiotherapy assessment", "Golf performance conditioning", "Injury rehabilitation", "Tournament medical presence", "Movement screening", "Sport-specific rehabilitation"]],
+];
+
+const corporateFeatures: Array<[LucideIcon, string, string]> = [
+  [Stethoscope, "Baseline MSK Screening", "Clinical musculoskeletal screening of all participating employees using validated tools. Identifies at-risk individuals before injury occurs."],
+  [MonitorCheck, "Ergonomic Workstation Assessment", "Physiotherapist-led assessment of your workplace environment with immediate, actionable recommendations."],
+  [PersonStanding, "Weekly Supervised Sessions", "One clinically supervised group session per week, stratified by risk profile. Delivered at your workplace in 45–60 minute sessions."],
+  [Home, "Home Exercise Programme", "Every participant receives a structured home exercise programme to extend clinical benefit beyond the workplace."],
+  [Activity, "Monthly Clinical Reporting", "Written outcome report to HR each month covering attendance, participation, MSK symptom changes, and programme effectiveness."],
+];
+
+const spineFeatures: Array<[LucideIcon, string, string]> = [
+  [Stethoscope, "Specialist Spinal Assessment", "Comprehensive clinical assessment of lumbar disc pathology, cervical disorders, spondylolisthesis, and complex chronic back pain."],
+  [Activity, "Protocol-Driven Rehabilitation", "Structured rehabilitation programmes including our 56-day, 17-exercise progressive back pain protocol."],
+  [MonitorCheck, "MSK Ultrasound Assessment", "Ultrasound-guided assessment including multifidus biofeedback for outcome monitoring and rehabilitation guidance."],
+  [HeartPulse, "Chronic Pain Management", "Integrating pain science education with evidence-based physical rehabilitation for long-term outcomes."],
+  [BoneFracture, "Post-Surgical Rehabilitation", "Structured return-to-function programmes following spinal surgery, developed in collaboration with referring surgeons."],
+];
+
+const performanceFeatures: Array<[LucideIcon, string, string]> = [
+  [Activity, "Golf Physiotherapy Assessment", "Specialist assessment of swing-related injuries, movement restrictions, and physical asymmetries affecting your game and your health."],
+  [Dumbbell, "Golf Performance Conditioning", "Strength, flexibility, and rotational power programmes designed specifically for the demands of golf."],
+  [HeartPulse, "Injury Rehabilitation", "Management of back pain, golfer's elbow, shoulder impingement, hip dysfunction, and wrist injuries common in golf."],
+  [Stethoscope, "Tournament Medical Presence", "On-site physiotherapy at golf tournaments, including injury assessment, pre-round warm-up support, and post-round recovery guidance."],
+  [HeartHandshake, "Uganda Golf Union Partnership", "CoreWell Performance is the proposed official sports physiotherapy partner of the Uganda Golf Union, bringing specialist care to every affiliated club and tournament."],
 ];
 
 export const articles = [
@@ -249,25 +269,41 @@ function Hero() {
   </div></section>;
 }
 
-const serviceIcons: Record<string, LucideIcon> = {
-  "Musculoskeletal Physiotherapy": BicepsFlexed,
-  "Sports Injury Rehabilitation": Accessibility,
-  "Spine and Back Pain Care": Bone,
-  "Post-Surgical Rehabilitation": BoneFracture,
-  "Neurological Rehabilitation": PersonStanding,
-  "Paediatric Physiotherapy": Baby,
-  "Pain Management": HeartPulse,
-  "Workplace Ergonomics": MonitorCheck,
-  "Corporate Wellness": HeartHandshake,
-  "Athlete Performance Support": Dumbbell,
-};
-
-function ServiceIcon({ title }: { title: string }) {
-  const Icon = serviceIcons[title] ?? Activity;
-  return <Icon aria-hidden="true" size={27} strokeWidth={1.75} />;
+function DivisionFeatures({ items }: { items: Array<[LucideIcon, string, string]> }) {
+  return <div className="division-features">{items.map(([Icon,title,copy]) => <article className="division-feature" key={title}><span><Icon aria-hidden="true" size={28} strokeWidth={1.65}/></span><div><h3>{title}</h3><p>{copy}</p></div></article>)}</div>;
 }
 
-function ServiceGrid({ full=false }: { full?:boolean }) { const list = full ? services : services.slice(0,6); return <div className={full ? "servicegrid full" : "servicegrid"}>{list.map(([,title,desc,who,conditions]) => <article className="servicecard" key={title as string}><span className="lineicon"><ServiceIcon title={title as string}/></span><h3>{title as string}</h3><p>{desc as string}</p>{full && <><div className="service-meta"><b>Who it is for</b><span>{who as string}</span></div><div className="service-meta"><b>Common concerns</b><span>{conditions as string}</span></div><Link className="textlink" href="/appointment">Book Appointment <span>→</span></Link></>}</article>)}</div>; }
+function SpecialistServices() {
+  return <div className="specialist-services">
+    <section className="specialist-division corporate-division"><div className="container specialist-inner">
+      <span className="division-number">Specialist division 01</span>
+      <h2>CoreWell Corporate</h2>
+      <p className="division-promise">Protect your workforce, protect your bottom line.</p>
+      <div className="division-copy"><p>Uganda&apos;s growing sedentary workforce is developing musculoskeletal conditions, back pain, neck pain, and postural disorders that are costing organisations in absenteeism, reduced productivity, and rising healthcare claims. CoreWell Corporate delivers clinically supervised workplace wellness programmes that address this burden at its root.</p><p>We are not a fitness provider. We are licensed physiotherapists who design and deliver evidence-based clinical programmes inside your workplace with baseline screening, weekly supervised sessions, home exercise programmes, and monthly outcome reporting to your HR team.</p></div>
+      <Link className="division-cta division-cta-blue" href="/contact#contact-form">Request Free Workplace Assessment</Link>
+      <DivisionFeatures items={corporateFeatures}/>
+    </div></section>
+
+    <section className="specialist-division spine-division"><div className="container specialist-inner">
+      <span className="division-number">Specialist division 02</span>
+      <h2>CoreWell Spine Specialist Clinic</h2>
+      <p className="division-promise">Uganda&apos;s home for specialist spine care.</p>
+      <div className="division-copy"><p>Uganda currently has no private specialist spine rehabilitation facility. CoreWell Spine Specialist Clinic is being developed to fill this gap, providing protocol-driven, evidence-based rehabilitation for patients with complex spinal conditions at a level of specialist care previously unavailable in the private sector in Uganda.</p><p>Our clinical approach is built on years of managing complex spinal cases in practice.</p></div>
+      <Link className="division-cta division-cta-green" href="/contact#contact-form">Book A Consultation</Link>
+      <DivisionFeatures items={spineFeatures}/>
+      <aside className="development-status"><b>Development Status</b><p>The CoreWell Spine Specialist Clinic is currently in development, with opening planned on the Kampala–Gayaza highway in 2028. Clinical consultations with the founding physiotherapy team are available now. Contact us to discuss your clinical needs.</p></aside>
+    </div></section>
+
+    <section className="specialist-division performance-division"><div className="container specialist-inner">
+      <span className="division-number">Specialist division 03</span>
+      <h2>CoreWell Performance</h2>
+      <p className="division-promise">Play better. Move better. Last longer.</p>
+      <div className="division-copy"><p>Golf is a physical sport with a well-documented and highly specific injury profile. The rotational demands of the swing, combined with the repetitive nature of practice and play, place considerable stress on the spine, hips, shoulders, and upper limbs. Yet the vast majority of Uganda&apos;s golf community currently has no access to physiotherapy designed specifically around their sport.</p><p>CoreWell Performance is Uganda&apos;s dedicated golf physiotherapy service. Our clinical team has worked with members of Uganda&apos;s golf community at the highest levels of the sport, and we bring that experience to every player we work with, from competitive to recreational.</p></div>
+      <a className="division-cta division-cta-orange" href="https://wa.me/256761393569?text=Hello%20CoreWell%20Uganda%2C%20I%20would%20like%20to%20book%20a%20Golf%20Physio%20Session." target="_blank" rel="noreferrer">Book a Golf Physio Session</a>
+      <DivisionFeatures items={performanceFeatures}/>
+    </div></section>
+  </div>;
+}
 
 function DivisionGrid({ detailed=false }: { detailed?:boolean }) { return <div className="divisiongrid">{divisions.map(([tag,title,desc,items]) => <article className="divisioncard" key={title as string}><span className="divisiontag">{tag as string}</span><h3>{title as string}</h3><p>{desc as string}</p>{detailed && <ul>{(items as string[]).map(i => <li key={i}>{i}</li>)}</ul>}<Link className="textlink" href={detailed ? "/appointment" : "/divisions"}>{detailed ? "Book an appointment" : "Learn more"} <span>→</span></Link></article>)}</div>; }
 
@@ -303,7 +339,7 @@ function ContactForm({ appointment=false }: {appointment?:boolean}) {
     }
   }
 
-  return <form className="form" name={formName} method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={submit}>
+  return <form className="form" id="contact-form" name={formName} method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={submit}>
     <input type="hidden" name="form-name" value={formName}/><label hidden>Do not fill this field<input name="bot-field"/></label>
     {sent ? <div className="success"><b>Thank you.</b><p>Your request has been sent successfully to CoreWell Uganda. Our team will contact you using the details you provided.</p><button className="btn" type="button" onClick={()=>setSent(false)}>Send another request</button></div> : <>
       {appointment ? <><label>Full name<input required name="name" autoComplete="name"/></label><div className="formrow"><label>Phone number<input required type="tel" name="phone" autoComplete="tel"/></label><label>Email<input required type="email" name="email" autoComplete="email"/></label></div><div className="formrow"><label>Preferred service<select required name="service" defaultValue=""><option value="">Choose a service</option>{services.map(s=><option key={s[1]}>{s[1]}</option>)}</select></label><label>Patient type<select required name="patient-type" defaultValue="Individual"><option>Individual</option><option>Corporate</option><option>Athlete</option></select></label></div><div className="formrow"><label>Preferred date<input required type="date" name="preferred-date"/></label><label>Preferred time<input required type="time" name="preferred-time"/></label></div><label>Brief description of the problem<textarea required name="message" rows={5}/></label><label className="consent"><input required type="checkbox" name="consent" value="yes"/> I consent to CoreWell Uganda contacting me about this appointment request.</label></> : <><div className="formrow"><label>Full name<input required name="name" autoComplete="name"/></label><label>Phone number<input required type="tel" name="phone" autoComplete="tel"/></label></div><label>Email<input required type="email" name="email" autoComplete="email"/></label><label>I am Enquiring About<select required name="service" defaultValue=""><option value="">Select an option</option>{enquiryOptions.map(option=><option key={option}>{option}</option>)}</select></label><label>Message<textarea required name="message" rows={4}/></label></>}
@@ -342,7 +378,7 @@ function ContactSection(){ return <section className="section contactsection"><d
 
 function AboutPage(){return <><PageHero eyebrow="About CoreWell Uganda" title="Founded by clinicians. Built for Uganda." copy="We are physiotherapists who identified a musculoskeletal health crisis in Uganda's workplaces, sports fields and communities — and built a company to solve it."/><section className="section"><div className="container twocol"><div><SectionHead eyebrow="Our story" title="The problem came through our clinic doors" copy="CoreWell Uganda Limited was co-founded by Julius Kaweesa and Kajwiga Emmanuel, two licensed physiotherapists operating under the Allied Health Professionals Council Uganda."/><p>In clinical practice, we repeatedly saw office workers living with preventable back pain, neck pain and postural problems linked to sedentary habits and poorly designed work environments. We saw athletes whose rehabilitation did not reflect the demands of their sport, and patients with complex spinal conditions who needed specialist, protocol-driven care.</p><p>CoreWell Uganda was built as a clinical response to what we observed first-hand. We prevent, treat and rehabilitate with clinical excellence, one patient and one organisation at a time.</p></div><div className="principles"><article><span>01</span><h3>Vision</h3><p>A Uganda that moves without pain.</p></article><article><span>02</span><h3>Mission</h3><p>We are physiotherapists who identified a musculoskeletal health crisis in Uganda&apos;s workplaces, sports fields and communities — and built a company to solve it. We prevent, treat and rehabilitate with clinical excellence, one patient and one organisation at a time.</p></article><article><span>03</span><h3>Our approach</h3><p>Clinical excellence first. Business outcomes follow. Every CoreWell programme is evidence-based, outcomes-measured and delivered by licensed physiotherapists — not fitness instructors, not wellness generalists.</p></article></div></div></section><section className="section pale"><div className="container"><SectionHead center eyebrow="How we work" title="There is no substitute for clinical authority."/><div className="infogrid"><article><span>01</span><h3>Clinical Leadership</h3><p>Licensed physiotherapists lead assessment, programme design and delivery.</p></article><article><span>02</span><h3>Evidence-Based Protocols</h3><p>Every intervention is grounded in clinical evidence and adapted to real needs.</p></article><article><span>03</span><h3>Measurable Outcomes</h3><p>Progress is recorded and reviewed so care remains accountable and effective.</p></article></div></div></section></>}
 
-function ServicesPage(){return <><PageHero eyebrow="Our services" title="Clinical care built around real life." copy="Assessment, treatment and rehabilitation for pain, injury, recovery, work and performance — delivered by licensed physiotherapists."/><section className="section"><div className="container"><ServiceGrid full/></div></section><CTA/></>}
+function ServicesPage(){return <><PageHero eyebrow="Our services" title="Our specialist divisions" copy="Three focused clinical services, each built around the real needs of Uganda's workforces, spine patients, and golf community."/><SpecialistServices/></>}
 function DivisionsPage(){return <><PageHero eyebrow="CoreWell divisions" title="Three divisions. One clinical standard." copy="CoreWell Corporate protects workforces, CoreWell Spine provides specialist spinal care, and CoreWell Performance helps athletes move and perform at their best."/><section className="section"><div className="container"><DivisionGrid detailed/></div></section><CTA/></>}
 function TeamPage(){return <><PageHero eyebrow="Our team" title="Clinicians first. Business builders second." copy="Meet the licensed physiotherapists who turned a problem seen in everyday clinical practice into a company built to solve it."/><section className="section"><div className="container"><TeamCards full/><p className="accuracy-note">CoreWell Uganda is building a clinical advisory panel of medical officers and orthopaedic specialists on a consultancy basis. Appointments will be announced shortly.</p></div></section></>}
 function PatientPage(){const steps=[["Before your visit","Bring relevant medical reports, imaging, referral notes and a list of current medicines if available."],["Suitable clothing","Wear comfortable clothing that allows the area being assessed to move freely."],["Assessment","Your physiotherapist will discuss your symptoms and goals, then assess movement, strength and function."],["Treatment planning","Findings will be explained clearly and a plan will be agreed with you."],["Follow-up sessions","Progress will be reviewed and your programme adjusted according to your response and goals."]];return <><PageHero eyebrow="Patient information" title="Your first appointment, explained." copy="Simple guidance to help you arrive prepared and know what to expect."/><section className="section"><div className="container patientlayout"><div>{steps.map(([t,c],i)=><article className="step" key={t}><span>{String(i+1).padStart(2,"0")}</span><div><h3>{t}</h3><p>{c}</p></div></article>)}</div><aside className="urgent"><h3>When to seek urgent medical attention</h3><p>Seek urgent care for severe symptoms after major trauma, sudden weakness, chest pain, difficulty breathing, loss of bladder or bowel control, or any rapidly worsening medical concern.</p><p>This website does not replace emergency medical advice.</p></aside></div></section><section className="section pale"><div className="container narrow"><SectionHead center eyebrow="Frequently asked questions" title="Before you visit"/><details><summary>Do I need a referral?</summary><p>Contact the clinic to discuss your situation and whether a referral or existing medical information would be helpful.</p></details><details><summary>How long will treatment take?</summary><p>The number and frequency of sessions depends on your assessment, goals and response to care. Your physiotherapist will discuss this with you.</p></details><details><summary>Can CoreWell support organisations and athletes?</summary><p>Yes. CoreWell Corporate supports workplaces and CoreWell Performance supports athletes and return-to-sport programmes.</p></details></div></section><CTA/></>}
