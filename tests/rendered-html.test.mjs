@@ -77,6 +77,17 @@ test("server-renders the specialist services page", async () => {
   assert.match(html, /id="corewell-performance"/);
 });
 
+test("appointment form offers only the three current service groups", async () => {
+  const response = await render("/appointment");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /<option>Corporate<\/option>/);
+  assert.match(html, /<option>Athlete<\/option>/);
+  assert.match(html, /<option>Spine Care<\/option>/);
+  assert.doesNotMatch(html, /Musculoskeletal Physiotherapy/);
+});
+
 test("server-renders the Team advisory panel", async () => {
   const response = await render("/team");
   assert.equal(response.status, 200);
