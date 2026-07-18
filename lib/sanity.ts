@@ -33,7 +33,12 @@ function formatArticle(article: SanityArticle): Article {
     ? new Intl.DateTimeFormat("en-UG", { month: "long", year: "numeric" }).format(new Date(article.publishedAt))
     : "";
 
-  return { ...article, date };
+  return {
+    ...article,
+    date,
+    image: article.image || "/images/articles/physiotherapy-consultation.jpg",
+    imageAlt: article.imageAlt || article.title,
+  };
 }
 
 export async function getSanityArticles(): Promise<Article[]> {
@@ -43,7 +48,7 @@ export async function getSanityArticles(): Promise<Article[]> {
     const result = await client.fetch<SanityArticle[]>(
       `*[_type == "article" && defined(slug.current)] | order(publishedAt desc) ${articleProjection}`,
     );
-    return result.filter(article => article.slug && article.title && article.image).map(formatArticle);
+    return result.filter(article => article.slug && article.title).map(formatArticle);
   } catch (error) {
     console.error("Sanity articles could not be loaded", error);
     return [];

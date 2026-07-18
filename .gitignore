@@ -43,6 +43,8 @@ yarn-error.log*
 next-env.d.ts
 *.tsbuildinfo
 /dist/
+/studio/dist/
+/studio/.sanity/
 /.wrangler/
 /outputs/
 /work/

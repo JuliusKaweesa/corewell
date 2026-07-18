@@ -40,6 +40,7 @@
     "nitro": "3.0.260610-beta",
     "react-server-dom-webpack": "19.2.6",
     "sanity": "^6.5.0",
+    "styled-components": "^6.4.3",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "vinext": "0.0.50",
