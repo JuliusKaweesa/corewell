@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { PortableText } from "@portabletext/react";
+import { FormEvent, type ComponentProps, useEffect, useRef, useState } from "react";
+import type { Article } from "../lib/article-types";
 import {
   Activity,
   BoneFracture,
@@ -22,8 +24,8 @@ import {
 type PageName = "home" | "about" | "services" | "divisions" | "team" | "patient" | "articles" | "contact" | "appointment" | "notfound";
 
 const nav = [
-  ["Home", "/"], ["About Us", "/about"], ["Services", "/services"], ["Divisions", "/divisions"],
-  ["Our Team", "/team"], ["Patient Information", "/patient-information"], ["Articles", "/articles"], ["Contact", "/contact"],
+  ["Home", "/"], ["About Us", "/about"], ["Services", "/services"],
+  ["Our Team", "/team"], ["Articles", "/articles"], ["Contact", "/contact"],
 ];
 
 const mobileNav = [
@@ -111,7 +113,7 @@ const corewellClinicalComparison = [
   "Delivers monthly clinical reports to HR and insurers",
 ];
 
-export const articles = [
+export const articles: Article[] = [
   { slug: "why-your-lower-back-hurts-at-your-desk", category: "Workplace Health", author: "Julius Kaweesa", title: "Why Your Lower Back Hurts After a Long Day at Your Desk", excerpt: "If you finish work every day with a dull ache in your lower back, you are not alone — and you are not imagining it. Here is the clinical explanation and what you can do about it.", date: "June 2026", time: "4 min read", image: "/images/articles/back-pain-at-work.jpg", imageAlt: "A physiotherapist helping an office worker adjust his chair and sitting posture", content: [
     "If you finish work every day with a dull ache in your lower back, you are not alone — and you are not imagining it. Lower back pain is the single most common complaint we see in office-based workers at our clinic, and in the vast majority of cases, it has a very specific and very preventable cause.",
     "Your spine is designed for movement. It has 33 vertebrae, 23 intervertebral discs, and over 30 muscles working together to keep you upright, flexible, and pain-free. When you sit at a desk for six, seven, or eight hours a day, you are placing your spine in a sustained position it was never designed to hold for that long.",
@@ -189,8 +191,13 @@ function Footer() { return <footer><div className="container footergrid"><div><B
 
 function SectionHead({ eyebrow, title, copy, center=false }: { eyebrow:string; title:string; copy?:string; center?:boolean }) { return <div className={center ? "sectionhead center" : "sectionhead"}><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{copy && <p>{copy}</p>}</div>; }
 
-function HeroArticleCarousel() {
-  const featuredArticles = articles.slice(0, 6);
+function mergeArticles(cmsArticles: Article[] = []) {
+  const cmsSlugs = new Set(cmsArticles.map(article => article.slug));
+  return [...cmsArticles, ...articles.filter(article => !cmsSlugs.has(article.slug))];
+}
+
+function HeroArticleCarousel({ items }: { items: Article[] }) {
+  const featuredArticles = items.slice(0, 6);
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -278,7 +285,7 @@ function CoreValuesCarousel() {
   </div>;
 }
 
-function Hero() {
+function Hero({ articleItems }: { articleItems: Article[] }) {
   return <section className="hero"><div className="container hero-grid">
     <div>
       <h1 className="hero-title-desktop">A Uganda that<br/><em>moves without pain.</em></h1>
@@ -288,7 +295,7 @@ function Hero() {
     </div>
     <div className="hero-visual">
       <div className="imageframe"><img src="/images/hero-physio.png" alt="Physiotherapist guiding a patient through a shoulder mobility exercise"/></div>
-      <HeroArticleCarousel/>
+      <HeroArticleCarousel items={articleItems}/>
       <div className="floatcard"><b className="floatcard-title">A Uganda that moves without pain.</b><h1 className="hero-title-mobile">A Uganda that<br/><em>moves without pain.</em></h1><span>Founded by clinicians. Built for Uganda.</span></div>
     </div>
   </div></section>;
@@ -356,7 +363,15 @@ function TeamCards() { const team = [
   { image: "/images/team/emma.jpeg", name: "Emmanuel Kajwiga", role: "Clinician and Cofounder, CoreWell Uganda" },
 ]; return <div className="teamgrid team-profile-grid">{team.map(({image,name,role}) => <article className="team-profile-card" key={name}><div className="team-profile-photo"><img src={image} alt={`${name}, ${role}`}/></div><div className="team-profile-copy"><h3>{name}</h3><p>{role}</p></div></article>)}</div>; }
 
-function ArticleCards({ limit=6 }: {limit?:number}) { return <div className="articlegrid">{articles.slice(0,limit).map(a => <article className="articlecard" key={a.slug}><div className="articlevisual"><img src={a.image} alt={a.imageAlt}/><span>{a.category}</span></div><div className="articlebody"><span className="articlemeta">{a.date} · {a.time}</span><h3>{a.title}</h3><p>{a.excerpt}</p><Link className="textlink" href={`/articles/${a.slug}`}>Read article <span>→</span></Link></div></article>)}</div>; }
+function ArticleCards({ items, limit=6 }: {items:Article[];limit?:number}) { return <div className="articlegrid">{items.slice(0,limit).map(a => <article className="articlecard" key={a.slug}><div className="articlevisual"><img src={a.image} alt={a.imageAlt}/><span>{a.category}</span></div><div className="articlebody"><span className="articlemeta">{a.date} · {a.time}</span><h3>{a.title}</h3><p>{a.excerpt}</p><Link className="textlink" href={`/articles/${a.slug}`}>Read article <span>→</span></Link></div></article>)}</div>; }
+
+function ArticleBody({ content }: { content: Article["content"] }) {
+  if (content.every(block => typeof block === "string")) {
+    return <>{content.map((paragraph, index) => <p key={index}>{paragraph as string}</p>)}</>;
+  }
+
+  return <div className="article-rich-text"><PortableText value={content as ComponentProps<typeof PortableText>["value"]}/></div>;
+}
 
 function ContactForm({ appointment=false }: {appointment?:boolean}) {
   const [sent,setSent] = useState(false);
@@ -394,9 +409,9 @@ function ContactForm({ appointment=false }: {appointment?:boolean}) {
 
 function PageHero({ eyebrow, title, copy }: {eyebrow:string;title:string;copy:string}) { return <section className="pagehero"><div className="container narrow"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{copy}</p></div></section>; }
 
-function HomePage(){
+function HomePage({ articleItems }: { articleItems: Article[] }){
   return <>
-    <Hero/>
+    <Hero articleItems={articleItems}/>
     <section className="section aboutpreview">
       <div className="container narrow">
         <div className="sectionhead">
@@ -426,11 +441,11 @@ function ServicesPage(){return <><PageHero eyebrow="Our services" title="Our spe
 function DivisionsPage(){return <><PageHero eyebrow="CoreWell divisions" title="Three divisions. One clinical standard." copy="CoreWell Corporate protects workforces, CoreWell Spine provides specialist spinal care, and CoreWell Performance helps athletes move and perform at their best."/><section className="section"><div className="container"><DivisionGrid detailed/></div></section><CTA/></>}
 function TeamPage(){return <><section className="pagehero team-pagehero"><div className="container"><span className="eyebrow">Our team</span><div className="team-advisory-intro"><p>CoreWell Uganda is building a Clinical Advisory and Implementation Panel of medical officers and orthopaedic and spine specialists who support our clinical team. This multidisciplinary model ensures that CoreWell&apos;s programmes benefit from the full spectrum of musculoskeletal clinical expertise: physiotherapy, medicine, and orthopaedics, working together in the interest of our clients and patients. Panel appointments will be announced shortly.</p></div></div></section><section className="section team-profiles-section"><div className="container"><h2 className="team-profiles-heading">Meet Our Team</h2><TeamCards/></div></section></>}
 function PatientPage(){const steps=[["Before your visit","Bring relevant medical reports, imaging, referral notes and a list of current medicines if available."],["Suitable clothing","Wear comfortable clothing that allows the area being assessed to move freely."],["Assessment","Your physiotherapist will discuss your symptoms and goals, then assess movement, strength and function."],["Treatment planning","Findings will be explained clearly and a plan will be agreed with you."],["Follow-up sessions","Progress will be reviewed and your programme adjusted according to your response and goals."]];return <><PageHero eyebrow="Patient information" title="Your first appointment, explained." copy="Simple guidance to help you arrive prepared and know what to expect."/><section className="section"><div className="container patientlayout"><div>{steps.map(([t,c],i)=><article className="step" key={t}><span>{String(i+1).padStart(2,"0")}</span><div><h3>{t}</h3><p>{c}</p></div></article>)}</div><aside className="urgent"><h3>When to seek urgent medical attention</h3><p>Seek urgent care for severe symptoms after major trauma, sudden weakness, chest pain, difficulty breathing, loss of bladder or bowel control, or any rapidly worsening medical concern.</p><p>This website does not replace emergency medical advice.</p></aside></div></section><section className="section pale"><div className="container narrow"><SectionHead center eyebrow="Frequently asked questions" title="Before you visit"/><details><summary>Do I need a referral?</summary><p>Contact the clinic to discuss your situation and whether a referral or existing medical information would be helpful.</p></details><details><summary>How long will treatment take?</summary><p>The number and frequency of sessions depends on your assessment, goals and response to care. Your physiotherapist will discuss this with you.</p></details><details><summary>Can CoreWell support organisations and athletes?</summary><p>Yes. CoreWell Corporate supports workplaces and CoreWell Performance supports athletes and return-to-sport programmes.</p></details></div></section><CTA/></>}
-function ArticlesPage(){return <><PageHero eyebrow="The CoreWell Clinic" title="Clinical insight for work, health and performance." copy="Practical, evidence-informed guidance written by CoreWell Uganda's licensed health professionals."/><section className="section"><div className="container"><ArticleCards/></div></section></>}
+function ArticlesPage({ articleItems }: { articleItems: Article[] }){return <><PageHero eyebrow="The CoreWell Clinic" title="Clinical insight for work, health and performance." copy="Practical, evidence-informed guidance written by CoreWell Uganda's licensed health professionals."/><section className="section"><div className="container"><ArticleCards items={articleItems}/></div></section></>}
 function ContactPage(){return <><PageHero eyebrow="Contact CoreWell" title="Ready to start the conversation?" copy="Whether you are an HR manager, a patient or an athlete, our clinical team is ready to listen."/><ContactSection/></>}
 function AppointmentPage(){return <><PageHero eyebrow="Request an assessment" title="Tell us how we can help." copy="Send an appointment request and the CoreWell team will contact you to confirm availability."/><section className="section"><div className="container appointmentgrid"><div><SectionHead eyebrow="Your visit" title="Personal care starts with a clear conversation." copy="Complete the form with your preferred time and service. This request does not confirm an appointment until our team contacts you."/><div className="contactpanel"><b>Prefer to call?</b><a href="tel:+256761393569">+256 761 393 569</a><a href="tel:+256784106753">+256 784 106 753</a></div></div><ContactForm appointment/></div></section></>}
 function CTA(){return <section className="cta"><div className="container"><div><span className="eyebrow light">Ready to start the conversation?</span><h2>Protect your workforce, your patients, your game.</h2></div><Link className="btn btn-white" href="/appointment">Request an Assessment</Link></div></section>}
 
-export function SitePage({page}:{page:PageName}) { let content; switch(page){case "home":content=<HomePage/>;break;case "about":content=<AboutPage/>;break;case "services":content=<ServicesPage/>;break;case "divisions":content=<DivisionsPage/>;break;case "team":content=<TeamPage/>;break;case "patient":content=<PatientPage/>;break;case "articles":content=<ArticlesPage/>;break;case "contact":content=<ContactPage/>;break;case "appointment":content=<AppointmentPage/>;break;default:content=<><PageHero eyebrow="404" title="This page could not be found." copy="The page may have moved, or the address may be incorrect."/><div className="section center"><Link className="btn" href="/">Return Home</Link></div></>;} return <><Header/><main>{content}</main><Footer/></>; }
+export function SitePage({page,cmsArticles=[]}:{page:PageName;cmsArticles?:Article[]}) { const articleItems=mergeArticles(cmsArticles); let content; switch(page){case "home":content=<HomePage articleItems={articleItems}/>;break;case "about":content=<AboutPage/>;break;case "services":content=<ServicesPage/>;break;case "divisions":content=<DivisionsPage/>;break;case "team":content=<TeamPage/>;break;case "patient":content=<PatientPage/>;break;case "articles":content=<ArticlesPage articleItems={articleItems}/>;break;case "contact":content=<ContactPage/>;break;case "appointment":content=<AppointmentPage/>;break;default:content=<><PageHero eyebrow="404" title="This page could not be found." copy="The page may have moved, or the address may be incorrect."/><div className="section center"><Link className="btn" href="/">Return Home</Link></div></>;} return <><Header/><main>{content}</main><Footer/></>; }
 
-export function ArticlePage({slug}:{slug:string}) { const a=articles.find(x=>x.slug===slug); if(!a)return <SitePage page="notfound"/>; const related=articles.filter(x=>x.slug!==slug).slice(0,3); return <><Header/><main><article className="articlepage"><div className="container articlecopy"><Link className="backlink" href="/articles">← Back to Articles</Link><span className="eyebrow">{a.category}</span><h1>{a.title}</h1><p className="articledek">{a.excerpt}</p><div className="articlemeta">By {a.author}, Licensed Physiotherapist · CoreWell Uganda · {a.date} · {a.time}</div><div className="articlelead"><img src={a.image} alt={a.imageAlt}/><span>{a.category}</span></div>{a.content.map((p,i)=><p key={i}>{p}</p>)}<div className="articlecallout"><b>Need a personal assessment?</b><p>Article information is general and cannot replace an individual clinical assessment.</p><Link className="btn" href="/appointment">Book an Appointment</Link></div></div></article><section className="section pale"><div className="container"><SectionHead eyebrow="Keep reading" title="Related articles"/><div className="articlegrid">{related.map(r=><article className="articlecard" key={r.slug}><div className="articlevisual"><img src={r.image} alt={r.imageAlt}/><span>{r.category}</span></div><div className="articlebody"><h3>{r.title}</h3><p>{r.excerpt}</p><Link className="textlink" href={`/articles/${r.slug}`}>Read article <span>→</span></Link></div></article>)}</div></div></section></main><Footer/></>; }
+export function ArticlePage({slug,article,cmsArticles=[]}:{slug:string;article?:Article|null;cmsArticles?:Article[]}) { const articleItems=mergeArticles(cmsArticles); const a=article || articleItems.find(x=>x.slug===slug); if(!a)return <SitePage page="notfound" cmsArticles={cmsArticles}/>; const related=articleItems.filter(x=>x.slug!==slug).slice(0,3); return <><Header/><main><article className="articlepage"><div className="container articlecopy"><Link className="backlink" href="/articles">← Back to Articles</Link><span className="eyebrow">{a.category}</span><h1>{a.title}</h1><p className="articledek">{a.excerpt}</p><div className="articlemeta">By {a.author} · CoreWell Uganda · {a.date} · {a.time}</div><div className="articlelead"><img src={a.image} alt={a.imageAlt}/><span>{a.category}</span></div><ArticleBody content={a.content}/><div className="articlecallout"><b>Need a personal assessment?</b><p>Article information is general and cannot replace an individual clinical assessment.</p><Link className="btn" href="/appointment">Book an Appointment</Link></div></div></article><section className="section pale"><div className="container"><SectionHead eyebrow="Keep reading" title="Related articles"/><div className="articlegrid">{related.map(r=><article className="articlecard" key={r.slug}><div className="articlevisual"><img src={r.image} alt={r.imageAlt}/><span>{r.category}</span></div><div className="articlebody"><h3>{r.title}</h3><p>{r.excerpt}</p><Link className="textlink" href={`/articles/${r.slug}`}>Read article <span>→</span></Link></div></article>)}</div></div></section></main><Footer/></>; }

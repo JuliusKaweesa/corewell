@@ -12,9 +12,14 @@
     "start": "vinext start",
     "test": "vite build && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "studio:dev": "sanity dev studio",
+    "studio:deploy": "sanity deploy studio"
   },
   "dependencies": {
+    "@portabletext/react": "^6.2.0",
+    "@sanity/client": "^7.23.2",
+    "@sanity/image-url": "^2.1.1",
     "drizzle-orm": "0.45.2",
     "lucide-react": "^1.24.0",
     "next": "16.2.6",
@@ -22,6 +27,7 @@
     "react-dom": "19.2.6"
   },
   "devDependencies": {
+    "@sanity/vision": "^6.5.0",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
@@ -33,6 +39,7 @@
     "eslint-config-next": "16.2.6",
     "nitro": "3.0.260610-beta",
     "react-server-dom-webpack": "19.2.6",
+    "sanity": "^6.5.0",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "vinext": "0.0.50",

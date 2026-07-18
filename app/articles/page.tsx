@@ -1,2 +1,7 @@
 import { SitePage } from "../site-shell";
-export default function Page(){ return <SitePage page="articles"/>; }
+import { getSanityArticles } from "../../lib/sanity";
+
+export default async function Page(){
+  const cmsArticles = await getSanityArticles();
+  return <SitePage page="articles" cmsArticles={cmsArticles}/>;
+}
